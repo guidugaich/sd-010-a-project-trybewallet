@@ -1,9 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import WalletHeader from '../components/WalletHeader';
+import WalletForm from '../components/WalletForm';
+import WalletTable from '../components/WalletTable';
+import { getCurrenciesListThunk } from '../actions';
 
 class Wallet extends React.Component {
+  componentDidMount() {
+    const { getCurrenciesList } = this.props;
+    getCurrenciesList();
+  }
+
   render() {
-    return <div>TrybeWallet</div>;
+    return (
+      <div>
+        <WalletHeader />
+        <WalletForm />
+        <WalletTable />
+      </div>
+    );
   }
 }
 
-export default Wallet;
+const mapDispatchToProps = (dispatch) => ({
+  getCurrenciesList: () => dispatch(getCurrenciesListThunk()),
+});
+
+Wallet.propTypes = {
+  getCurrenciesList: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Wallet);
